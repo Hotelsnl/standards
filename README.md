@@ -1,4 +1,1 @@
-standards
-=========
-
-Ha, like we use those...
+![http://imgs.xkcd.com/comics/standards.png](http://imgs.xkcd.com/comics/standards.png)
