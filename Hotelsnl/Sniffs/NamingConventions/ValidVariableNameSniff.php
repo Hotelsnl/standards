@@ -153,19 +153,28 @@ class Hotelsnl_Sniffs_NamingConventions_ValidVariableNameSniff extends PHP_CodeS
             return;
         }
 
+        $public    = ($memberProps['scope'] === 'public');
         $errorData = array($varName);
 
-        if (substr($varName, 0, 1) === '_') {
-            $error = '%s member variable "%s" must not contain a leading underscore';
-            $data  = array(
-                      ucfirst($memberProps['scope']),
-                      $errorData[0],
-                     );
-            $phpcsFile->addError($error, $stackPtr, 'PublicHasUnderscore', $data);
-            return;
+        if ($public === true) {
+            if (substr($varName, 0, 1) === '_') {
+                $error = '%s member variable "%s" must not contain a leading underscore';
+                $data  = array(
+                          ucfirst($memberProps['scope']),
+                          $errorData[0],
+                         );
+                $phpcsFile->addError($error, $stackPtr, 'PublicHasUnderscore', $data);
+                return;
+            }
+        } else {
+            if (substr($varName, 0, 1) !== '_') {
+                $error = 'Private or protected member variable "%s" must contain a leading underscore';
+                $phpcsFile->addError($error, $stackPtr, 'PrivateNoUnderscore', $errorData);
+                return;
+            }
         }
 
-        if (PHP_CodeSniffer::isCamelCaps($varName, false, true, false) === false) {
+        if (PHP_CodeSniffer::isCamelCaps($varName, false, $public, false) === false) {
             $error = 'Variable "%s" is not in valid camel caps format';
             $phpcsFile->addError($error, $stackPtr, 'MemberNotCamelCaps', $errorData);
         }

@@ -213,10 +213,8 @@ class Hotelsnl_Sniffs_Functions_FunctionCallSignatureSniff implements PHP_CodeSn
                     // Closing brace needs to be indented to the same level
                     // as the function call.
                   $expectedIndent = $functionIndent;
-                } elseif ($nextCode !== $phpcsFile->findNext(T_COMMA, ($i + 1), ($closeBracket + 1), true)) {
-                    $expectedIndent = ($functionIndent + 2);
                 } else {
-                    $expectedIndent = ($functionIndent + 4);
+                    $expectedIndent = ($functionIndent + 2);
                 }
 
                 if ($tokens[$i]['code'] !== T_WHITESPACE) {
