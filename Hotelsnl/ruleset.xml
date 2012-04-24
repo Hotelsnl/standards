@@ -10,19 +10,19 @@
  <rule ref="Generic.Formatting.SpaceAfterCast"/>
  <rule ref="Generic.NamingConventions.ConstructorName"/>
  <rule ref="Generic.NamingConventions.UpperCaseConstantName"/>
- <rule ref="Generic.PHP.DisallowShortOpenTag"/>
  <rule ref="Generic.Strings.UnnecessaryStringConcat"/>
  <rule ref="Generic.WhiteSpace.DisallowTabIndent"/>
  <rule ref="Generic.WhiteSpace.ScopeIndent"/>
  <rule ref="PEAR.ControlStructures.MultiLineCondition"/>
+ <rule ref="PEAR.NamingConventions.ValidFunctionName"/>
  <rule ref="PEAR.Files.IncludingFile"/>
  <rule ref="Zend.Debug.CodeAnalyzer"/>
 
- <!-- Lines can be 120 chars long, but never show errors -->
+ <!-- Lines can be 90 chars long, should be 80 but never show errors -->
  <rule ref="Generic.Files.LineLength">
   <properties>
-   <property name="lineLimit" value="120"/>
-   <property name="absoluteLineLimit" value="0"/>
+   <property name="lineLimit" value="80"/>
+   <property name="absoluteLineLimit" value="90"/>
   </properties>
  </rule>
 

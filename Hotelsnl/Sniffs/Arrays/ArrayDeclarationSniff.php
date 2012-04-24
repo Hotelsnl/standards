@@ -8,7 +8,7 @@
  * @package   PHP_CodeSniffer
  * @author    Greg Sherwood <gsherwood@squiz.net>
  * @author    Marc McIntyre <mmcintyre@squiz.net>
- * @copyright 2006-2011 Hotelsnl Pty Ltd (ABN 77 084 670 600)
+ * @copyright 2006-2011 Hotelsnl.c Pty Ltd (ABN 77 084 670 600)
  * @license   http://matrix.squiz.net/developer/tools/php_cs/licence BSD Licence
  * @link      http://pear.php.net/package/PHP_CodeSniffer
  */
@@ -20,7 +20,7 @@
  * @package   PHP_CodeSniffer
  * @author    Greg Sherwood <gsherwood@squiz.net>
  * @author    Marc McIntyre <mmcintyre@squiz.net>
- * @copyright 2006-2011 Hotelsnl Pty Ltd (ABN 77 084 670 600)
+ * @copyright 2006-2011 Hotelsnl.c Pty Ltd (ABN 77 084 670 600)
  * @license   http://matrix.squiz.net/developer/tools/php_cs/licence BSD Licence
  * @version   Release: 1.3.3
  * @link      http://pear.php.net/package/PHP_CodeSniffer
@@ -172,6 +172,17 @@ class Hotelsnl_Sniffs_Arrays_ArrayDeclarationSniff implements PHP_CodeSniffer_Sn
                             $phpcsFile->addError($error, $comma, 'SpaceAfterComma', $data);
                         }
                     }
+
+                    if ($tokens[($comma - 1)]['code'] === T_WHITESPACE) {
+                        $content     = $tokens[($comma - 2)]['content'];
+                        $spaceLength = strlen($tokens[($comma - 1)]['content']);
+                        $error       = 'Expected 0 spaces between "%s" and comma; %s found';
+                        $data        = array(
+                                        $content,
+                                        $spaceLength,
+                                       );
+                        $phpcsFile->addError($error, $comma, 'SpaceBeforeComma', $data);
+                    }
                 }//end foreach
             }//end if
 
@@ -183,6 +194,16 @@ class Hotelsnl_Sniffs_Arrays_ArrayDeclarationSniff implements PHP_CodeSniffer_Sn
         if ($tokens[$lastContent]['line'] !== ($tokens[$arrayEnd]['line'] - 1)) {
             $error = 'Closing parenthesis of array declaration must be on a new line';
             $phpcsFile->addError($error, $arrayEnd, 'CloseBraceNewLine');
+        } else if ($tokens[$arrayEnd]['column'] !== $keywordStart) {
+            // Check the closing bracket is lined up under the a in array.
+            $expected = $keywordStart;
+            $found    = $tokens[$arrayEnd]['column'];
+            $error    = 'Closing parenthesis not aligned correctly; expected %s space(s) but found %s';
+            $data     = array(
+                         $expected,
+                         $found,
+                        );
+            $phpcsFile->addError($error, $arrayEnd, 'CloseBraceNotAligned', $data);
         }
 
         $nextToken  = $stackPtr;
@@ -226,6 +247,17 @@ class Hotelsnl_Sniffs_Arrays_ArrayDeclarationSniff implements PHP_CodeSniffer_Sn
                 }
 
                 if ($keyUsed === false) {
+                    if ($tokens[($nextToken - 1)]['code'] === T_WHITESPACE) {
+                        $content     = $tokens[($nextToken - 2)]['content'];
+                        $spaceLength = strlen($tokens[($nextToken - 1)]['content']);
+                        $error       = 'Expected 0 spaces between "%s" and comma; %s found';
+                        $data        = array(
+                                        $content,
+                                        $spaceLength,
+                                       );
+                        $phpcsFile->addError($error, $nextToken, 'SpaceBeforeComma', $data);
+                    }
+
                     // Find the value, which will be the first token on the line,
                     // excluding the leading whitespace.
                     $valueContent = $phpcsFile->findPrevious(PHP_CodeSniffer_Tokens::$emptyTokens, ($nextToken - 1), null, true);
@@ -332,7 +364,7 @@ class Hotelsnl_Sniffs_Arrays_ArrayDeclarationSniff implements PHP_CodeSniffer_Sn
             $lastIndex = $indices[($count - 1)]['value'];
 
             $trailingContent = $phpcsFile->findPrevious(T_WHITESPACE, ($arrayEnd - 1), $lastIndex, true);
-            if ( $tokens[$trailingContent]['code'] === T_COMMA) {
+            if ($tokens[$trailingContent]['code'] === T_COMMA) {
                 $error = 'Do not use a comma after the last value in array declaration';
                 $phpcsFile->addError($error, $trailingContent, 'NoCommaAfterLast');
             }
@@ -390,6 +422,16 @@ class Hotelsnl_Sniffs_Arrays_ArrayDeclarationSniff implements PHP_CodeSniffer_Sn
                 continue;
             }
 
+            if (($tokens[$index['index']]['column'] - 1) !== $indicesStart) {
+                $error = 'Array key not aligned correctly; expected %s spaces but found %s';
+                $data  = array(
+                          ($indicesStart),
+                          ($tokens[$index['index']]['column'] - 1),
+                         );
+                $phpcsFile->addError($error, $index['index'], 'KeyNotAligned', $data);
+                continue;
+            }
+
             // Check each line ends in a comma.
             if ($tokens[$index['value']]['code'] !== T_ARRAY) {
                 $nextComma = false;
@@ -404,6 +446,23 @@ class Hotelsnl_Sniffs_Arrays_ArrayDeclarationSniff implements PHP_CodeSniffer_Sn
                         $nextComma = $i;
                         break;
                     }
+                }
+
+                if (($nextComma === true) && ($tokens[$nextComma]['line'] !== $tokens[$index['value']]['line'])) {
+                    $error = 'Each line in an array declaration must end in a comma';
+                    $phpcsFile->addError($error, $index['value'], 'NoComma');
+                }
+
+                // Check that there is no space before the comma.
+                if ($nextComma !== false && $tokens[($nextComma - 1)]['code'] === T_WHITESPACE) {
+                    $content     = $tokens[($nextComma - 2)]['content'];
+                    $spaceLength = strlen($tokens[($nextComma - 1)]['content']);
+                    $error       = 'Expected 0 spaces between "%s" and comma; %s found';
+                    $data        = array(
+                                    $content,
+                                    $spaceLength,
+                                   );
+                    $phpcsFile->addError($error, $nextComma, 'SpaceBeforeComma', $data);
                 }
             }
         }//end foreach
