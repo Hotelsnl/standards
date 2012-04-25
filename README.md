@@ -71,5 +71,7 @@ cd .git/hooks
 ln -s ~/standards/Hotelsnl/hooks/pre-commit
 ```
 
+To ignore the pre-commit hook you can append `--no-verify` to the commit command
+
 If there is already pre-commit hook in your project you can append the contents of the pre-commit
 hook to that file.
