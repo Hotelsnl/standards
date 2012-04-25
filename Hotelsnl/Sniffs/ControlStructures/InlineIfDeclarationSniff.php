@@ -83,7 +83,7 @@ class Hotelsnl_Sniffs_ControlStructures_InlineIfDeclarationSniff implements PHP_
         $contentAfter  = $phpcsFile->findNext(T_WHITESPACE, ($stackPtr + 1), null, true);
 
         $spaceBefore = ($tokens[$stackPtr]['column'] - ($tokens[$contentBefore]['column'] + strlen($tokens[$contentBefore]['content'])));
-        if ($spaceBefore !== 1) {
+        if ($spaceBefore !== 1 && $tokens[$contentBefore]['line'] === $tokens[$stackPtr]['line']) {
             $error = 'Inline shorthand IF statement requires 1 space before THEN; %s found';
             $data  = array($spaceBefore);
             $phpcsFile->addError($error, $stackPtr, 'SpacingBeforeThen', $data);
@@ -107,7 +107,7 @@ class Hotelsnl_Sniffs_ControlStructures_InlineIfDeclarationSniff implements PHP_
         $contentAfter  = $phpcsFile->findNext(T_WHITESPACE, ($inlineElse + 1), null, true);
 
         $spaceBefore = ($tokens[$inlineElse]['column'] - ($tokens[$contentBefore]['column'] + strlen($tokens[$contentBefore]['content'])));
-        if ($spaceBefore !== 1) {
+        if ($spaceBefore !== 1 && $tokens[$contentBefore]['line'] === $tokens[$inlineElse]['line']) {
             $error = 'Inline shorthand IF statement requires 1 space before ELSE; %s found';
             $data  = array($spaceBefore);
             $phpcsFile->addError($error, $inlineElse, 'SpacingBeforeElse', $data);

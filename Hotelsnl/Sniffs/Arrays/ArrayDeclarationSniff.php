@@ -194,10 +194,10 @@ class Hotelsnl_Sniffs_Arrays_ArrayDeclarationSniff implements PHP_CodeSniffer_Sn
         if ($tokens[$lastContent]['line'] !== ($tokens[$arrayEnd]['line'] - 1)) {
             $error = 'Closing parenthesis of array declaration must be on a new line';
             $phpcsFile->addError($error, $arrayEnd, 'CloseBraceNewLine');
-        } else if ($tokens[$arrayEnd]['column'] !== $keywordStart) {
+        } else if ($tokens[$arrayEnd]['column'] !== $tokens[$stackPtr]['level'] * 2 + 1 && $tokens[$stackPtr]['level'] === 1) {
             // Check the closing bracket is lined up under the a in array.
-            $expected = $keywordStart;
-            $found    = $tokens[$arrayEnd]['column'];
+            $expected = $tokens[$stackPtr]['level'] * 2;
+            $found    = $tokens[$arrayEnd]['column'] - 1;
             $error    = 'Closing parenthesis not aligned correctly; expected %s space(s) but found %s';
             $data     = array(
                          $expected,
@@ -402,7 +402,7 @@ class Hotelsnl_Sniffs_Arrays_ArrayDeclarationSniff implements PHP_CodeSniffer_Sn
 
         $numValues = count($indices);
 
-        $indicesStart = ($keywordStart + 1);
+        $indicesStart = $tokens[$stackPtr]['level'] * 2 + 3;
         $arrowStart   = ($indicesStart + $maxLength + 1);
         $valueStart   = ($arrowStart + 3);
         foreach ($indices as $index) {
@@ -421,12 +421,11 @@ class Hotelsnl_Sniffs_Arrays_ArrayDeclarationSniff implements PHP_CodeSniffer_Sn
                 $phpcsFile->addError($error, $stackPtr, 'FirstIndexNoNewline');
                 continue;
             }
-
-            if (($tokens[$index['index']]['column'] - 1) !== $indicesStart) {
+            if (($tokens[$index['index']]['column']) !== $indicesStart && $tokens[$stackPtr]['level'] === 1) {
                 $error = 'Array key not aligned correctly; expected %s spaces but found %s';
                 $data  = array(
-                          ($indicesStart),
-                          ($tokens[$index['index']]['column'] - 1),
+                          $indicesStart - 1,
+                          $tokens[$index['index']]['column']  - 1,
                          );
                 $phpcsFile->addError($error, $index['index'], 'KeyNotAligned', $data);
                 continue;
