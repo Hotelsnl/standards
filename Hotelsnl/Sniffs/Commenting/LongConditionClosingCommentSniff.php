@@ -80,7 +80,7 @@ class Hotelsnl_Sniffs_Commenting_LongConditionClosingCommentSniff implements PHP
         $expected = '<?php';
         $comment  = $phpcsFile->findNext(array(T_COMMENT), $stackPtr, null, false);
 
-        if (trim($tokens[$comment]['content']) !== $expected) {
+        if (trim($tokens[$comment]['content']) !== $expected && $tokens[$comment]['level'] === 1) {
             $found = trim($tokens[$comment]['content']);
             $error = 'Do not use closing comments!';
             $data  = array(
