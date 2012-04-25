@@ -105,14 +105,8 @@ class Hotelsnl_Sniffs_WhiteSpace_FunctionOpeningBraceSpaceSniff implements PHP_C
                     $phpcsFile->addError($error, $openBrace, 'SpacingAfterNested', $data);
                 }
             } else {
-                if ($lineDifference !== 0) {
-                    $error = 'Opening brace should NOT be on a new line';
-                    $phpcsFile->addError($error, $openBrace, 'ContentBefore');
-                    return;
-                }
-
                 if ($lineDifference > 0) {
-                    $error = 'Opening brace should be right after the declaration; found %s blank line(s)';
+                    $error = 'Opening brace should be on the same line as the declaration; found %s blank line(s)';
                     $data  = array(($lineDifference - 1));
                     $phpcsFile->addError($error, $openBrace, 'SpacingBefore', $data);
                     return;
