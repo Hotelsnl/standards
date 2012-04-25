@@ -24,7 +24,7 @@ CS_IGNORE_WARNINGS=1
 TMP_STAGING=".tmp_staging"
 
 # simple check if code sniffer is set up correctly
-if [! -x $CS_BIN]; then
+if [ ! -x $CS_BIN ]; then
   echo "CodeSniffer bin not found or isn't executable -> $CS_BIN"
   exit 1
 fi
@@ -43,12 +43,12 @@ fi
 # but no deletions etc
 FILES=$(git diff-index --name-only --cached --diff-filter=ACMR $against -- )
 
-if ["$FILES" == ""]; then
+if [ "$FILES" == "" ]; then
   exit 0
 fi
 
 # create temporary copy of staging area
-if [-e $TMP_STAGING]; then
+if [ -e $TMP_STAGING ]; then
   rm -rf $TMP_STAGING
 fi
 
@@ -61,29 +61,29 @@ do
   echo "$FILE" | egrep -q "$CS_FILE_PATTERN"
   RETVAL=$?
 
-  if ["$RETVAL" -eq "0"]; then
+  if [ "$RETVAL" -eq "0" ]; then
     FILES_TO_CHECK="$FILES_TO_CHECK $FILE"
   fi
 done
 
-if ["$FILES_TO_CHECK" == ""]; then
+if [ "$FILES_TO_CHECK" == "" ]; then
   exit 0
 fi
 
 # execute the code sniffer
-if ["$CS_IGNORE" != ""]; then
+if [ "$CS_IGNORE" != "" ]; then
   IGNORE="--ignore=$CS_IGNORE"
 else
   IGNORE=""
 fi
 
-if ["$CS_ENCODING" != ""]; then
+if [ "$CS_ENCODING" != "" ]; then
   ENCODING="--encoding=$CS_ENCODING"
 else
   ENCODING=""
 fi
 
-if ["$CS_IGNORE_WARNINGS" == "1"]; then
+if [ "$CS_IGNORE_WARNINGS" == "1" ]; then
   IGNORE_WARNINGS="-n"
 else
   IGNORE_WARNINGS=""
@@ -110,7 +110,7 @@ RETVAL=$?
 # delete temporary copy of staging area
 rm -rf $TMP_STAGING
 
-if [$RETVAL -ne 0]; then
+if [ $RETVAL -ne 0 ]; then
   echo "$OUTPUT" | less
 fi
 
