@@ -30,7 +30,7 @@ if (class_exists('PEAR_Sniffs_Functions_FunctionDeclarationSniff', true) === fal
  * @version   Release: 1.3.3
  * @link      http://pear.php.net/package/PHP_CodeSniffer
  */
-class Hotelsnl_Sniffs_Functions_MultiLineFunctionDeclarationSniff extends PEAR_Sniffs_Functions_FunctionDeclarationSniff
+class Hotelsnl_Sniffs_Functions_MultiLineFunctionDeclarationSniff
 {
 
 

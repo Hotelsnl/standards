@@ -8,8 +8,8 @@
  <rule ref="Generic.ControlStructures.InlineControlStructure"/>
  <rule ref="Generic.Formatting.DisallowMultipleStatements"/>
  <rule ref="Generic.Formatting.SpaceAfterCast"/>
+ <rule ref="Generic.Functions.OpeningFunctionBraceKernighanRitchie"/>
  <rule ref="Generic.NamingConventions.ConstructorName"/>
- <rule ref="Generic.NamingConventions.UpperCaseConstantName"/>
  <rule ref="Generic.Strings.UnnecessaryStringConcat"/>
  <rule ref="Generic.WhiteSpace.DisallowTabIndent"/>
  <rule ref="Generic.WhiteSpace.ScopeIndent"/>

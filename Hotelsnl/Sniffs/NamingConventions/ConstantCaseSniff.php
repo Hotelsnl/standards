@@ -53,7 +53,7 @@ class Hotelsnl_Sniffs_NamingConventions_ConstantCaseSniff extends Generic_Sniffs
         if ($phpcsFile->tokenizerType === 'JS') {
             parent::process($phpcsFile, $stackPtr);
         } else {
-            $sniff = new Generic_Sniffs_PHP_UpperCaseConstantSniff;
+            $sniff = new Hotelsnl_Sniffs_PHP_UpperCaseConstantSniff;
             $sniff->process($phpcsFile, $stackPtr);
         }
 
