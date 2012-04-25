@@ -57,3 +57,19 @@ This IDE comes with a handy plugin and detailed installation guide which can be 
 #### Other IDE's
 
 I suggest your `rm -rf` it and [start](http://vim-adventures.com/) [learning](http://vimcasts.org/) [VIM](http://www.vim.org/)
+
+### Git integration
+
+To prevent bad and invalid code from being committed in to the repositories you need to install
+the `pre-commit` hook from this repository in to the `.git/hooks` folder of your project. This
+needs to be done every time you clone a repository.
+
+To install the git hooks you can run the following commands in your terminal:
+
+```bash
+cd .git/hooks
+ln -s ~/standards/Hotelsnl/hooks/pre-commit
+```
+
+If there is already pre-commit hook in your project you can append the contents of the pre-commit
+hook to that file.
