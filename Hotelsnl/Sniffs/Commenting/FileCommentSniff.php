@@ -209,6 +209,40 @@ class Hotelsnl_Sniffs_Commenting_FileCommentSniff implements PHP_CodeSniffer_Sni
 
         $newlineCount = (substr_count($short, $phpcsFile->eolChar) + 1);
 
+        // Exactly one blank line between short and long description.
+        $long = $comment->getLongComment();
+        if (empty($long) === false) {
+            $between        = $comment->getWhiteSpaceBetween();
+            $newlineBetween = substr_count($between, $phpcsFile->eolChar);
+            if ($newlineBetween !== 2) {
+                $error = 'There must be exactly one blank line between descriptions in file comment';
+                $phpcsFile->addError($error, ($commentStart + $newlineCount + 1), 'SpacingBetween');
+            }
+
+            $newlineCount += $newlineBetween;
+
+            $testLong = trim($long);
+            if (preg_match('|[A-Z]|', $testLong[0]) === 0) {
+                $error = 'File comment long description must start with a capital letter';
+                $phpcsFile->addError($error, ($commentStart + $newlineCount), 'LongNotCaptial');
+            }
+        }//end if
+
+        // Exactly one blank line before tags.
+        $tags = $this->commentParser->getTagOrders();
+        if (count($tags) > 1) {
+            $newlineSpan = $comment->getNewlineAfter();
+            if ($newlineSpan !== 2) {
+                $error = 'There must be exactly one blank line before the tags in file comment';
+                if ($long !== '') {
+                    $newlineCount += (substr_count($long, $phpcsFile->eolChar) - $newlineSpan + 1);
+                }
+
+                $phpcsFile->addError($error, ($commentStart + $newlineCount), 'SpacingBeforeTags');
+                $short = rtrim($short, $phpcsFile->eolChar.' ');
+            }
+        }
+
         // Short description must be single line and end with a full stop.
         $testShort = trim($short);
         if ($testShort !== '') {
@@ -271,7 +305,7 @@ class Hotelsnl_Sniffs_Commenting_FileCommentSniff implements PHP_CodeSniffer_Sni
         $tags = array(
                  'package'    => 'precedes @subpackage',
                  'subpackage' => 'follows @package',
-                 'copyright'  => 'follows @author',
+                 'copyright'  => 'follows @subpackage',
                 );
 
         $foundTags   = $this->commentParser->getTagOrders();
