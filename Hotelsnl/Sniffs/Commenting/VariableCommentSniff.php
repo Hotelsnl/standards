@@ -177,8 +177,8 @@ class Hotelsnl_Sniffs_Commenting_VariableCommentSniff extends PHP_CodeSniffer_St
         $tags = $this->commentParser->getTagOrders();
         if (count($tags) > 1) {
             $newlineSpan = $comment->getNewlineAfter();
-            if ($newlineSpan > 1) {
-                $error = 'There must be NO blank lines before the tags in variable comment';
+            if ($newlineSpan !== 2) {
+                $error = 'There must be exactly one blank line before the tags in variable comment';
                 if ($long !== '') {
                     $newlineCount += (substr_count($long, $phpcsFile->eolChar) - $newlineSpan + 1);
                 }
