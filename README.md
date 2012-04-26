@@ -26,7 +26,7 @@ from the step above in your home (~) directory:
 
 ```bash
 cd /usr/share/php/PHP/CodeSniffer/Standards/
-ln -s ~/standards/Hotelsnl
+sudo ln -s ~/standards/Hotelsnl
 ```
 The symlink is needed as CodeSniffer expects the standard to be in it's own directory.
 
