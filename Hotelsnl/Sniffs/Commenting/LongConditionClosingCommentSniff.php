@@ -46,6 +46,8 @@ class Hotelsnl_Sniffs_Commenting_LongConditionClosingCommentSniff implements PHP
      */
     protected $lineLimit = 20;
 
+    protected $lastFoundLine = 0;
+
 
     /**
      * Returns an array of tokens this test wants to listen for.
@@ -79,8 +81,7 @@ class Hotelsnl_Sniffs_Commenting_LongConditionClosingCommentSniff implements PHP
 
         $expected = '<?php';
         $comment  = $phpcsFile->findNext(array(T_COMMENT), $stackPtr, null, false);
-
-        if (trim($tokens[$comment]['content']) !== $expected && $tokens[$comment]['level'] === 1) {
+        if (trim($tokens[$comment]['content']) !== $expected && $tokens[$comment]['level'] === 1 && $tokens[$comment]['line'] === $this->lastFoundLine && $tokens[$stackPtr]['line'] === $tokens[$comment]['line']) {
             $found = trim($tokens[$comment]['content']);
             $error = 'Do not use closing comments!';
             $data  = array(
@@ -90,7 +91,7 @@ class Hotelsnl_Sniffs_Commenting_LongConditionClosingCommentSniff implements PHP
             $phpcsFile->addError($error, $stackPtr, 'Invalid', $data);
             return;
         }
-
+        $this->lastFoundLine = $tokens[$comment]['line'];
     }//end process()
 
 
