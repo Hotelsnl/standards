@@ -146,12 +146,6 @@ class Hotelsnl_Sniffs_Arrays_ArrayDeclarationSniff implements PHP_CodeSniffer_Sn
             if ($valueCount > 0) {
                 $conditionCheck = $phpcsFile->findPrevious(array(T_OPEN_PARENTHESIS, T_SEMICOLON), ($stackPtr - 1), null, false);
 
-                if (($conditionCheck === false) || ($tokens[$conditionCheck]['line'] !== $tokens[$stackPtr]['line'])) {
-                    $error = 'Array with multiple values cannot be declared on a single line';
-                    $phpcsFile->addError($error, $stackPtr, 'SingleLineNotAllowed');
-                    return;
-                }
-
                 // We have a multiple value array that is inside a condition or
                 // function. Check its spacing is correct.
                 foreach ($commas as $comma) {
@@ -194,16 +188,6 @@ class Hotelsnl_Sniffs_Arrays_ArrayDeclarationSniff implements PHP_CodeSniffer_Sn
         if ($tokens[$lastContent]['line'] !== ($tokens[$arrayEnd]['line'] - 1)) {
             $error = 'Closing parenthesis of array declaration must be on a new line';
             $phpcsFile->addError($error, $arrayEnd, 'CloseBraceNewLine');
-        } else if ($tokens[$arrayEnd]['column'] !== $tokens[$stackPtr]['level'] * 2 + 1 && $tokens[$stackPtr]['level'] === 1) {
-            // Check the closing bracket is lined up under the a in array.
-            $expected = $tokens[$stackPtr]['level'] * 2;
-            $found    = $tokens[$arrayEnd]['column'] - 1;
-            $error    = 'Closing parenthesis not aligned correctly; expected %s space(s) but found %s';
-            $data     = array(
-                         $expected,
-                         $found,
-                        );
-            $phpcsFile->addError($error, $arrayEnd, 'CloseBraceNotAligned', $data);
         }
 
         $nextToken  = $stackPtr;
@@ -419,15 +403,6 @@ class Hotelsnl_Sniffs_Arrays_ArrayDeclarationSniff implements PHP_CodeSniffer_Sn
             if (($tokens[$index['index']]['line'] === $tokens[$stackPtr]['line'])) {
                 $error = 'The first index in a multi-value array must be on a new line';
                 $phpcsFile->addError($error, $stackPtr, 'FirstIndexNoNewline');
-                continue;
-            }
-            if (($tokens[$index['index']]['column']) !== $indicesStart && $tokens[$stackPtr]['level'] === 1) {
-                $error = 'Array key not aligned correctly; expected %s spaces but found %s';
-                $data  = array(
-                          $indicesStart - 1,
-                          $tokens[$index['index']]['column']  - 1,
-                         );
-                $phpcsFile->addError($error, $index['index'], 'KeyNotAligned', $data);
                 continue;
             }
 

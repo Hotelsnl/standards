@@ -79,12 +79,12 @@ class Hotelsnl_Sniffs_WhiteSpace_FunctionSpacingSniff implements PHP_CodeSniffer
             }
         }
 
+        $nextContent = $phpcsFile->findNext(array(T_WHITESPACE), ($nextLineToken + 1), null, true);
         if (is_null($nextLineToken) === true) {
             // Never found the next line, which means
             // there are 0 blank lines after the function.
             $foundLines = 0;
         } else {
-            $nextContent = $phpcsFile->findNext(array(T_WHITESPACE), ($nextLineToken + 1), null, true);
             if ($nextContent === false) {
                 // We are at the end of the file.
                 $foundLines = 0;
@@ -93,7 +93,7 @@ class Hotelsnl_Sniffs_WhiteSpace_FunctionSpacingSniff implements PHP_CodeSniffer
             }
         }
 
-        if ($foundLines !== 1) {
+        if ($foundLines !== 1 && $nextContent !== false) {
             $error = 'Expected 1 blank lines after function; %s found';
             $data  = array($foundLines);
             $phpcsFile->addError($error, $closer, 'After', $data);

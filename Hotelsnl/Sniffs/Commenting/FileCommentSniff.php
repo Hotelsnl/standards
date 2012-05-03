@@ -305,7 +305,7 @@ class Hotelsnl_Sniffs_Commenting_FileCommentSniff implements PHP_CodeSniffer_Sni
         $tags = array(
                  'package'    => 'precedes @subpackage',
                  'subpackage' => 'follows @package',
-                 'copyright'  => 'follows @author',
+                 'copyright'  => 'follows @subpackage',
                 );
 
         $foundTags   = $this->commentParser->getTagOrders();
