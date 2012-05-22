@@ -223,7 +223,7 @@ class Hotelsnl_Sniffs_Commenting_InlineCommentSniff implements PHP_CodeSniffer_S
             return;
         }
 
-        if (preg_match('|[A-Z]|', $commentText[0]) === 0) {
+        if (preg_match('|[A-Z\@]|', $commentText[0]) === 0) {
             $error = 'Inline comments must start with a capital letter';
             $phpcsFile->addError($error, $topComment, 'NotCapital');
         }
@@ -232,6 +232,7 @@ class Hotelsnl_Sniffs_Commenting_InlineCommentSniff implements PHP_CodeSniffer_S
         $acceptedClosers = array(
                             'full-stops'        => '.',
                             'exclamation marks' => '!',
+                            'semicolons' => ':',
                             'or question marks' => '?',
                            );
 
