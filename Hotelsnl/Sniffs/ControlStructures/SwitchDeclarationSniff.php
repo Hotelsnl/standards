@@ -199,11 +199,6 @@ class Hotelsnl_Sniffs_ControlStructures_SwitchDeclarationSniff implements PHP_Co
                             break;
                         }
                     }
-
-                    if ($foundContent === false) {
-                        $error = 'Empty CASE statements are not allowed';
-                        $phpcsFile->addError($error, $nextCase, 'EmptyCase');
-                    }
                 } else {
                     // Ensure empty DEFAULT statements are not allowed.
                     // They must (at least) have a comment describing why
@@ -226,11 +221,6 @@ class Hotelsnl_Sniffs_ControlStructures_SwitchDeclarationSniff implements PHP_Co
                 $phpcsFile->addError($error, $nextCase, 'DefaultNoBreak');
             }//end if
         }//end while
-
-        if ($foundDefault === false) {
-            $error = 'All SWITCH statements must contain a DEFAULT case';
-            $phpcsFile->addError($error, $stackPtr, 'MissingDefault');
-        }
 
         if ($tokens[$switch['scope_closer']]['column'] !== $switch['column']) {
             $error = 'Closing brace of SWITCH statement must be aligned with SWITCH keyword';
