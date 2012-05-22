@@ -5,7 +5,6 @@
  <!-- Include some specific sniffs -->
  <rule ref="Generic.CodeAnalysis.UnusedFunctionParameter"/>
  <rule ref="Generic.Commenting.Todo"/>
- <rule ref="Generic.ControlStructures.InlineControlStructure"/>
  <rule ref="Generic.Formatting.DisallowMultipleStatements"/>
  <rule ref="Generic.Formatting.SpaceAfterCast"/>
  <rule ref="Generic.Functions.OpeningFunctionBraceKernighanRitchie"/>
