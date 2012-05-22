@@ -97,10 +97,17 @@ class Hotelsnl_Sniffs_PHP_DisallowMultipleAssignmentsSniff implements PHP_CodeSn
                 // We found our variable.
                 break;
             }
+
         }
 
         if ($varToken <= 0) {
             // Didn't find a variable.
+            return;
+        }
+
+        // If inline if allow assingment
+        $prev = $phpcsFile->findPrevious(T_IF, $varToken - 1);
+        if ($tokens[$prev]['code'] === T_IF) {
             return;
         }
 
