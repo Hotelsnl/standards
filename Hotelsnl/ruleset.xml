@@ -9,7 +9,6 @@
  <rule ref="Generic.Formatting.SpaceAfterCast"/>
  <rule ref="Generic.Functions.OpeningFunctionBraceKernighanRitchie"/>
  <rule ref="Generic.NamingConventions.ConstructorName"/>
- <rule ref="Generic.Strings.UnnecessaryStringConcat"/>
  <rule ref="Generic.WhiteSpace.DisallowTabIndent"/>
  <rule ref="Generic.WhiteSpace.ScopeIndent"/>
  <rule ref="PEAR.ControlStructures.MultiLineCondition"/>
