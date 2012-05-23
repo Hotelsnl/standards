@@ -224,12 +224,6 @@ class Hotelsnl_Sniffs_Arrays_ArrayDeclarationSniff implements PHP_CodeSniffer_Sn
                     continue;
                 }
 
-                if ($keyUsed === true && $lastToken === T_COMMA) {
-                    $error = 'No key specified for array entry; first entry specifies key';
-                    $phpcsFile->addError($error, $nextToken, 'NoKeySpecified');
-                    return;
-                }
-
                 if ($keyUsed === false) {
                     if ($tokens[($nextToken - 1)]['code'] === T_WHITESPACE) {
                         $content     = $tokens[($nextToken - 2)]['content'];
