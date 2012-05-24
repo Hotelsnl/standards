@@ -79,7 +79,7 @@ class Hotelsnl_Sniffs_Functions_FunctionDeclarationArgumentSpacingSniff implemen
                     $error = 'Expected 1 space between argument "%s" and equals sign; %s found';
                     $data  = array(
                               $tokens[$nextParam]['content'],
-                              strlen($tokens[($nextParam + 1)]['content']),
+                              strlen($tokens[($nextParam + 1)]['content']) - 1,
                              );
                     $phpcsFile->addError($error, $nextToken, 'SpaceBeforeEquals', $data);
                 }
@@ -88,7 +88,7 @@ class Hotelsnl_Sniffs_Functions_FunctionDeclarationArgumentSpacingSniff implemen
                     $error = 'Expected 1 space between default value and equals sign for argument "%s"; %s found';
                     $data  = array(
                               $tokens[$nextParam]['content'],
-                              strlen($tokens[($nextToken + 1)]['content']),
+                              strlen($tokens[($nextToken)]['content']) - 1,
                              );
                     $phpcsFile->addError($error, $nextToken, 'SpaceAfterDefault', $data);
                 }
