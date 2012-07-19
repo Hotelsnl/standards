@@ -1,6 +1,17 @@
 ![http://imgs.xkcd.com/comics/standards.png](http://imgs.xkcd.com/comics/standards.png)
 
-# PHP code style specification for CodeSniffer
+# Accepted standards and style guides
+
+#### Front-end
+
+- [JavaScript](/Hotelsnl/standards/wiki/JavaScript)
+- [Cascading Style Sheets and Pre-processors](/Hotelsnl/standards/wiki/CSS)
+
+#### Back-end
+
+- [PHP: Hypertext Preprocessor](/Hotelsnl/standards/wiki/PHP)
+
+## PHP code style specification for CodeSniffer
 
 ### Installation
 
