@@ -89,15 +89,19 @@ class Hotelsnl_Sniffs_ControlStructures_InlineIfDeclarationSniff implements PHP_
             $phpcsFile->addError($error, $stackPtr, 'SpacingBeforeThen', $data);
         }
 
+        // Requires space OR colon after the question mark.
         $spaceAfter = (($tokens[$contentAfter]['column']) - ($tokens[$stackPtr]['column'] + 1));
-        if ($spaceAfter !== 1) {
+        $colonAfter = $tokens[$stackPtr + 1]['type'] === 'T_COLON';
+        if ($spaceAfter !== 1 && !$colonAfter) {
             $error = 'Inline shorthand IF statement requires 1 space after THEN; %s found';
             $data  = array($spaceAfter);
+            var_dump($data);
             $phpcsFile->addError($error, $stackPtr, 'SpacingAfterThen', $data);
         }
 
         // If there is an else in this condition, make sure it has correct spacing.
         $inlineElse = $phpcsFile->findNext(T_COLON, ($stackPtr + 1), $statementEnd, false);
+        $isInlineIfElse = $tokens[$inlineElse]['column'] - $tokens[$stackPtr]['column'] === 1;
         if ($inlineElse === false) {
             // No else condition.
             return;
@@ -107,7 +111,7 @@ class Hotelsnl_Sniffs_ControlStructures_InlineIfDeclarationSniff implements PHP_
         $contentAfter  = $phpcsFile->findNext(T_WHITESPACE, ($inlineElse + 1), null, true);
 
         $spaceBefore = ($tokens[$inlineElse]['column'] - ($tokens[$contentBefore]['column'] + strlen($tokens[$contentBefore]['content'])));
-        if ($spaceBefore !== 1 && $tokens[$contentBefore]['line'] === $tokens[$inlineElse]['line']) {
+        if ($spaceBefore !== 1 && $tokens[$contentBefore]['line'] === $tokens[$inlineElse]['line'] && !$isInlineIfElse) {
             $error = 'Inline shorthand IF statement requires 1 space before ELSE; %s found';
             $data  = array($spaceBefore);
             $phpcsFile->addError($error, $inlineElse, 'SpacingBeforeElse', $data);
