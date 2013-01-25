@@ -95,7 +95,6 @@ class Hotelsnl_Sniffs_ControlStructures_InlineIfDeclarationSniff implements PHP_
         if ($spaceAfter !== 1 && !$colonAfter) {
             $error = 'Inline shorthand IF statement requires 1 space after THEN; %s found';
             $data  = array($spaceAfter);
-            var_dump($data);
             $phpcsFile->addError($error, $stackPtr, 'SpacingAfterThen', $data);
         }
 
