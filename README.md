@@ -4,12 +4,12 @@
 
 #### Front-end
 
-- [JavaScript](/Hotelsnl/standards/wiki/JavaScript)
-- [Cascading Style Sheets and Pre-processors](/Hotelsnl/standards/wiki/CSS)
+- [JavaScript](https://github.com/Hotelsnl/standards/wiki/JavaScript)
+- [Cascading Style Sheets and Pre-processors](https://github.com/Hotelsnl/standards/wiki/CSS)
 
 #### Back-end
 
-- [PHP: Hypertext Preprocessor](/Hotelsnl/standards/wiki/PHP)
+- [PHP: Hypertext Preprocessor](https://github.com/Hotelsnl/standards/wiki/PHP)
 
 ## PHP code style specification for CodeSniffer
 
