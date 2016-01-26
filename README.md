@@ -70,7 +70,7 @@ alias phpcs='phpcs --standard=Hotelsnl'
 
 #### Komodo IDE
 
-While this IDE is far less superior then VIM, it is also possible to integrate
+While this IDE is far less superior than VIM, it is also possible to integrate
 the CodeSniffer with it. There is a extensive installation guide on the
 [Drupal.org](http://drupal.org/node/1410310) site for it.
 
